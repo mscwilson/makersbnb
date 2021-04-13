@@ -1,227 +1,125 @@
-# MakersBNB Challenge
+## MakersBNB Challenge
 
-This repository supports [Makers](https://makers.tech/) Week 5 group challenge 'makersbnb'.
+An Airbnb-style accommodation listings site.
 
-1. **Installation:**
-   1. It is recommended that prior to installation, you ensure your development environment is updated. In particular, we recommend you run commands `softwareupdate --install -a` and `rvm get stable` to ensure your computer and rvm installations are current.
-   2. This project requires Ruby 3.0.0. If you're unsure as to whether you have 3.0.0 installed, run `rvm list` and ensure that 3.0.0 is listed. If it is not, install it with `rvm install 3.0.0`.
-   3. Clone or fork this repository.
-   4. To install the necessary Gems, run command `bundle`.
-       - Some users experience an error during the `bundle`ing process owing to difficulties installing dependencies of `thin`.
-       - To correct this error, run command `gem install thin -v '1.6.4' -- --with-cflags="-Wno-error=implicit-function-declaration"` to install version 1.6.4.
-       - Then run command `gem install thin` to install the current version of `thin`.
-       - Then run command `gem uninstall thin`, and uninstall version 1.6.4 with command `1`.
-       - Repeat step 4 to resume the `bundle` process.
-   5. To create the databases, run command `rake db:create`.
-   6. To refresh the databases, which is **recommended only after structural changes have been made to a database**, run command `rake db:schema:load`.
+[Description](#description)  
+[Technical Approach](#technical-approach)  
+[Development Team](#development-team)  
+[Installation and Usage](#installation-and-usage)  
+[Known Issues](#known-issues)  
 
-2. **Licensing:** This project is licensed under the [GNU GPL v.3.0](https://www.gnu.org/licenses/gpl-3.0.en.html).
 
-3. **Authors:** This repository is a joint project between its collaborators; @HamishArro, @RTurney, @JoshSinyor, and @mscwilson.
+### Description
+This was a group project for week 5 of the 12-week [Makers Academy](https://makers.tech) coding bootcamp. The goal was to create our take on an Airbnb clone, using the Ruby web framework Sinatra. We were given these user stories:  
 
----
+```
+As a user,
+So that I can list my house,
+I’d like to be able to create a listing of a space.
+```
+```
+As a user,
+So that I can make money from all of my properties,
+I would like to be able to list multiple spaces.
+```
+```
+As a user,
+So that other users can admire my space and want to stay there,
+I want to be able to provide a name, description and price for my space.
+```
+```
+As a user,
+So that other users can consider when they might be able to visit,
+I want to be able to offer a range of dates when the space is unoccupied.
+```
+```
+As a user,
+So I can rent a space,
+I’d like to be able to request a space and it to be approved by the owner.
+```
+```
+As a user,
+So that I don’t get double-booked,
+I want to make sure that a space can’t be booked more than once.
+```
+```
+As a user,
+So that my space is still available to other prospective clients,
+I would like my space to not be booked out until a user confirms a booking request.
+```
+  
+We were able to complete all of these specifications to some level. Our planning can be found [here](planning.md).
 
-## Table of Contents
+The app looks like this:  
+<figure style="margin: auto">
+<figcaption>Arriving at the homepage. The listed spaces are shown, but can't be booked.</figcaption>
+<img src="public/homepage_no_session.png" alt="home screen on loading" width="150">
+</figure><br>
 
-#### 1. Parsing User Stories
-- [x] User Story 01
-- [x] User Story 02
-- [x] User Story 03
-- [x] User Story 04
-- [x] User Story 05
-- [x] User Story 06
-- [x] User Story 07
-- [x] User Story 08
-- [x] User Story 09
-- [x] User Story 10
-- [x] User Story 11
-- [ ] User Story 12
-- [ ] User Story 13
-- [ ] User Story 14
-- [ ] User Story 15
-- [ ] User Story 16
-- [ ] User Story 17
-- [ ] User Story 18
-- [ ] User Story 19
-- [ ] User Story 20
+<figure style="margin: auto">
+<figcaption>A registered user signing in.</figcaption>
+<img src="public/sign-in.png" alt="signing in" width="150">
+</figure><br>
 
-#### 2. Database Domain Modelling
-- [x] Users Table
-- [x] Spaces Table
+<figure style="margin: auto">
+<figcaption>Listing a new space.</figcaption>
+<img src="public/add_space.png" alt="creating a new space listing" width="150">
+</figure><br>
 
-#### 3. MVP Planning
+<figure style="margin: auto">
+<figcaption>Requested to book a night here, in this space owned by a different user.</figcaption>
+<img src="public/make_booking.png" alt="requested a booking" width="150">
+</figure><br>
 
-#### 4. Feature & Unit Testing
+<figure style="margin: auto">
+<figcaption>The space's owner can see that two bookings have been requested, and confirm or decline them.</figcaption>
+<img src="public/accept_decline_bookings.png" alt="managing requested bookings" width="150">
+</figure><br>
 
----
 
-## Parsing User Stories
+### Technical Approach
+We used the Ruby web framework Sinatra for this project, in a Model View Controller pattern. Following instructions that I had [written](http://www.mirandawilson.tech/blog/2021/02/01/walkthrough-chitter-orm/) on my blog, we took advantage of the gem version of ActiveRecord - usually part of Rails - to simplify our database management and CRUD activities. It's an [Object Relational Mapper](https://blog.bitsrc.io/what-is-an-orm-and-why-you-should-use-it-b2b6f75f5e2a), which provides a layer between Sinatra and the SQL database, and provides boilerplate functionality.  
 
-### Headline Specifications
+Our model classes are User, Space and Booking. Each of them inherits from `ActiveRecord::Base`, which provides standard functionality for creating new records in the database, deleting records, and finding specific entries.  
 
-Actions are *italic*. Nouns are **bold**. Attributes of nouns are **_bold italics_**.
+We used the gem BCrypt to encrypt passwords. No passwords are shown in plain text.  
 
-##### User Story 01
+Tests are written in Rspec with Capybara for feature testing.  
 
-&nbsp;&nbsp;&nbsp;As a user,<br>
-&nbsp;&nbsp;&nbsp;So that I can list my house,<br>
-&nbsp;&nbsp;&nbsp;I’d like to be able to *create a* **listing** of a **space**.
+### Development Team
+[Me](https://github.com/mscwilson)  
+[Hamish Arro](https://github.com/HamishArro/)  
+[Josh Sinyor](https://github.com/JoshSinyor/)  
+[Richard Turney](https://github.com/RTurney/)  
 
-##### User Story 02
+### Installation and Usage  
+Make sure that Ruby 3.0.0 is installed, as well as Bundler.
+* Clone the repo
+* Navigate into the cloned folder
+* Run `bundle` to install the required gems
+* Create the databases: 
+    ```
+    rake db:create
+    rake db:create RACK_ENV=test
+    ```
+* Generate the correct tables in the databases:
+    ```
+    rake db:schema:load
+    rake db:schema:load RACK_ENV=test
+    ```
+* Run the app: `rackup`
+* Go to `localhost:9292` to view the app
 
-&nbsp;&nbsp;&nbsp;As a user,<br>
-&nbsp;&nbsp;&nbsp;So that I can make money from all of my properties,<br>
-&nbsp;&nbsp;&nbsp;I would like to be able to *list multiple spaces*.<br>
+* To run the tests, `rspec`
 
-##### User Story 03
 
-&nbsp;&nbsp;&nbsp;As a user,<br>
-&nbsp;&nbsp;&nbsp;So that other users can admire my space and want to stay there,<br>
-&nbsp;&nbsp;&nbsp;I want to be able to _provide a **name**, **description** and **price**_ for my **space**.
+Some users experience an error during the `bundle install` process owing to difficulties installing dependencies of `thin`.
+  - To correct this error, run command `gem install thin -v '1.6.4' -- --with-cflags="-Wno-error=implicit-function-declaration"` to install version 1.6.4.  
+  - Then run command `gem install thin` to install the current version of `thin`.
+  - Then run command `gem uninstall thin`, and choose to uninstall version 1.6.4 with command `1`.
+  - Resume the `bundle` process.
 
-##### User Story 04
+### Known Issues
+* There are no checks that entered dates are valid dates.
+* Uploaded images are stored locally, and the database only contains a string for their path. It would be better to use ActiveStorage, the image-focussed counterpart to ActiveRecord, to store the images properly in the database.
 
-&nbsp;&nbsp;&nbsp;As a user,<br>
-&nbsp;&nbsp;&nbsp;So that other users can consider when they might be able to visit,<br>
-&nbsp;&nbsp;&nbsp;I want to be able to **offer a range of _dates_** when the **space** is **_unoccupied_**.
-
-##### User Story 05
-
-&nbsp;&nbsp;&nbsp;As a user,<br>
-&nbsp;&nbsp;&nbsp;So I can rent a space,<br>
-&nbsp;&nbsp;&nbsp;I’d like to be able to _request_ a **space** and it to be _approved by the **owner**_.
-
-##### User Story 06
-
-&nbsp;&nbsp;&nbsp;As a user,<br>
-&nbsp;&nbsp;&nbsp;So that I don’t get double-booked,<br>
-&nbsp;&nbsp;&nbsp;I want to make sure that a **space** can’t _be **booked** more than once_.
-
-##### User Story 07
-
-&nbsp;&nbsp;&nbsp;As a user,<br>
-&nbsp;&nbsp;&nbsp;So that my space is still available to other prospective clients,<br>
-&nbsp;&nbsp;&nbsp;I would like my **space** to _not be **booked** out_ until a **user** _confirms a booking request_.
-
----
-
-### 'Nice to Have' Specifications
-
-##### User Story 08
-&nbsp;&nbsp;&nbsp;As a user,<br>
-&nbsp;&nbsp;&nbsp;To confirm my account has been created,<br>
-&nbsp;&nbsp;&nbsp;I would like _to be sent_ an **e-mail** after _signing up_.
-
-##### User Story 09
-&nbsp;&nbsp;&nbsp;As a user,<br>
-&nbsp;&nbsp;&nbsp;To make sure my space has been registered correctly,<br>
-&nbsp;&nbsp;&nbsp;I would like _to be sent_ an **e-mail** after _creating a new space_.
-
-##### User Story 10
-&nbsp;&nbsp;&nbsp;As a user,<br>
-&nbsp;&nbsp;&nbsp;To make sure my space was updated correctly,<br>
-&nbsp;&nbsp;&nbsp;I would like _to be sent_ an **e-mail** after _updating a space_ with changes.
-
-##### User Story 11
-&nbsp;&nbsp;&nbsp;As a user,<br>
-&nbsp;&nbsp;&nbsp;To make sure I know when a user books my space,<br>
-&nbsp;&nbsp;&nbsp;I would like _to be sent_ an **e-mail** after a _user confirms booking_ my **space**.
-
----
-
-## Database Domain Modelling
-
-The above user stories parse into several classes. As per [Class Responsibility Collaborator](http://agilemodeling.com/artifacts/crcModel.htm) modelling, there are two obvious classes - **User** and **Space**.
-
-Class: **Space**
-
-Responsibility | Collaborators
---- | ---
-Knows owner | User
-Knows own name |
-Knows own description |
-Knows own price |
-Knows own availability |
-Knows own bookings |
-
-Class: **User**
-
-Responsibility | Collaborators
---- | ---
-Knows own name |
-Knows own username |
-Knows own e-mail |
-Knows own password |
-~Knows own telephone number~ |
-Knows own spaces | Space
-
-Each class needs its own table, each with columns corresponding to the responsibilities of each class.
-
-Table: **Users**
-
-id PK | user_name | user_email | password_digest
---- | --- | --- | ---
-
-Table: **Spaces**
-
-id PK | space_name | description | price | user_id FK | start_date | end_date
---- | --- | --- | --- | --- | --- | ---
-
-Table: **Bookings**
-
-id PK | start_date | space_id FK | user_id FK | accepted
---- | --- | --- | --- | ---
-
----
-
-## MVP Planning
-
-- [x] Create a listing from form
-- [x] Show listing on homepage
-- [x] Homepage
-- [x] Add listing form on homepage
-- [x] Submit button on homepage form
-- [x] POST/GET redirect cycle
-- [x] Save form contents to session
-- [x] Display listing on homepage
-- [x] Display listings on homepage
-
----
-
-## Feature & Unit Testing
-
-Taking for example User Story 01 (`I’d like to be able to create a listing of a space.`), this presupposes the existence of a user, a space, and the ability to list it.
-
-Creating these follows the TDD process:
-1. Composition of pseudocode.
-2. Composition of feature tests.
-3. Composition of unit tests.
-4. Composition of code.
-5. Running of feature and unit tests.
-6. Refactoring, and if necessary correction of code.
-
----
-
-List for Hamish:
-
-1. [Issue #30](https://github.com/JoshSinyor/makersbnb/issues/30) raised for Nice to Haves
-2. Feature test for signing in
-3. Signing in button for index.erb
-4. POST/GET cycle for signing in
-5. Set up authentication for signing in, saving user into session
-6. Added welcome message for user on the index page (welcome big H!)
-7. Feature test for logging out
-8. Sign out button on index page
-9. Signed out user no longer sees welcome message
-10. Added feature test for 'add new space button'
-11. Moved add new space form to a new page, only accessible by signed in users
-12. Created web helper for signing in new users
-13. Refactored web_helper fill_in_space_form. Removed 'visit /'
-14. Added 'direct_add_space_to_db' method in web helpers
-15. Refactored tests to use 'before'
-
-Plan for Thursday:
-* add new space only available to signed in users
-* link user with added space
-* booking form on description page
-* taskbar please?
