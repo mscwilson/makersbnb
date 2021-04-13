@@ -53,27 +53,27 @@ We were able to complete all of these specifications to some level. Our planning
 The app looks like this:  
 <figure style="margin: auto">
 <figcaption>Arriving at the homepage. The listed spaces are shown, but can't be booked.</figcaption>
-<img src="public/homepage_no_session.png" alt="home screen on loading" width="150">
+<img src="public/homepage_no_session.png" alt="home screen on loading" width="500">
 </figure><br>
 
 <figure style="margin: auto">
 <figcaption>A registered user signing in.</figcaption>
-<img src="public/sign-in.png" alt="signing in" width="150">
+<img src="public/sign-in.png" alt="signing in" width="500">
 </figure><br>
 
 <figure style="margin: auto">
 <figcaption>Listing a new space.</figcaption>
-<img src="public/add_space.png" alt="creating a new space listing" width="150">
+<img src="public/add_space.png" alt="creating a new space listing" width="500">
 </figure><br>
 
 <figure style="margin: auto">
 <figcaption>Requested to book a night here, in this space owned by a different user.</figcaption>
-<img src="public/make_booking.png" alt="requested a booking" width="150">
+<img src="public/make_booking.png" alt="requested a booking" width="500">
 </figure><br>
 
 <figure style="margin: auto">
 <figcaption>The space's owner can see that two bookings have been requested, and confirm or decline them.</figcaption>
-<img src="public/accept_decline_bookings.png" alt="managing requested bookings" width="150">
+<img src="public/accept_decline_bookings.png" alt="managing requested bookings" width="500">
 </figure><br>
 
 
